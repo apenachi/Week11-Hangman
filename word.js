@@ -1,6 +1,6 @@
 // * `word.js` should contain all of the methods which will check the letters guessed
 // versus the random word selected.
-var ltr = require('./letter');
+var letter = require('./letter');
 
 function Word() {
 	this.inputLetters = '';
@@ -25,12 +25,13 @@ function Word() {
 	// 	this.inputLetters += char;
 	// };
 	this.checkLetter = function(l) {
+		// var letter = new t
 		return this.randomWord.indexOf(l) > -1 ? true : false
 	}
 }
 process.stdout.write('\033c');
-
-var l = new ltr();
+var l = new letter.Letter();
+// var l = new letter();
 var word = new Word();
 
 word.setRandomWord('javascript');
@@ -38,7 +39,7 @@ l.setChar('a');
 
 // word.saveInputLetters(l.char);
 
-l.found = word.checkLetter(l.char)
+l.found = word.checkLetter(l.char);
 console.log('l.char: ', l.char);
 console.log('l.found: ', l.found);
 console.log('l.charFound: ', l.charFound());
@@ -55,4 +56,6 @@ word.setPlayerWord(l.charFound());
 
 word.showPlayerWord();
 
+console.log('javascript'.replace(/[^z]/g, '*'));
+console.log('javascript'.indexOf('u'));
 // console.log('javascript'.replace(/scr/g, 'ok'));

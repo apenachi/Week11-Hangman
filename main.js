@@ -1,5 +1,5 @@
 var inquirer = require('inquirer');
-var randomWord = 'javascript'.toUpperCase();
+var randomWord = 'node'.toUpperCase();
 var playerWord = '*'.repeat(randomWord.length);
 // var playerWord = randomWord.replace(/./g,'#');
 process.stdout.write('\033c');
@@ -33,19 +33,25 @@ function playGame(left) {
 				// initialize();
 				console.log('try another day ...');
 			} else {
-				console.log('    -----          ');
-				console.log('   | - - |					');
-				console.log('   |  |  |					');
-				console.log('   | --- |					');
-				console.log('    ----- 					');
-				console.log('    ----- 	  			');
-				console.log('   |     |					');
-				console.log('---|     |---			');
-				console.log('   |     |					');
-				console.log('    ----- 					');
-				console.log('     / \\ 					');
-				console.log('    /   \\ 				');
-				console.log('   =      =				');
+				var hangman = 
+				[	'    -----     ',
+					'   | ? ? |    ',
+					'   |  <> |    ',
+					'   |  ~~ |    ',
+					'    -----     ',
+					'    -----     ',
+					'   |     |    ',
+					'---|     |--- ',
+					'   |     |    ',
+					'    -----     ',
+					'     / \\     ',
+					'    /   \\    ',
+					'   =     =    '
+				];
+				// process.stdout.write('\033c');
+				hangman.forEach(function(e, i) {
+					console.log(''.repeat(i) + e);
+				});
 			}
 		})
 	}

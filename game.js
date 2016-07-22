@@ -13,6 +13,9 @@ function Game() {
 					this.randomWord = user.name.first;
 					console.log(this.randomWord);
 				})
+				// while (!this.randomWord) {
+				// 	console.log('waiting');
+				// }
 			}
 		});
 		// this.randomWord = getRandomWord();
