@@ -1,0 +1,26 @@
+{
+  "name": "week11-hangman",
+  "version": "1.0.0",
+  "description": "Week11-Hangman Console Game in Node.js",
+  "main": "main.js",
+  "dependencies": {
+    "color": "^0.11.3",
+    "colors": "^1.1.2",
+    "inquirer": "^1.1.2",
+    "request": "^2.73.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apenachi/Week11-Hangman.git"
+  },
+  "author": "apenachi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apenachi/Week11-Hangman/issues"
+  },
+  "homepage": "https://github.com/apenachi/Week11-Hangman#readme"
+}

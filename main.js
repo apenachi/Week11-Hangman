@@ -1,60 +1,120 @@
 var inquirer = require('inquirer');
-var randomWord = 'node'.toUpperCase();
-var playerWord = '*'.repeat(randomWord.length);
-// var playerWord = randomWord.replace(/./g,'#');
-process.stdout.write('\033c');
-console.log('randomWord', randomWord, '\nplayerWord', playerWord);
-var tries = 0;
-var left = randomWord.length;
+var colors = require('colors/safe');
+var game = require('./game.js');
+var word = require('./word.js');
 
-var question  = [{
-		message: "pick a letter?",
+process.stdout.write('\033c');
+// console.log('\x1b[36m', 'left:', left, '\n playerWord', playerWord);
+var letterQuestion  = [{
+		message: "Input letter",
 		name: "letter"
 }];
-playGame(left);
-playerWord = '';
-function playGame(left) {
-	if (tries < left) {
-		inquirer.prompt(question).then(function(answer) {
-			playerWord += answer.letter;
-			 process.stdout.write('\033c');
-			console.log('\x1b[36m', 'left:', left, '\n playerWord', playerWord);
-			playGame(left - 1);
+var playQuestion = [{
+		type: 'confirm', 
+		message: 'play again?',
+		name: 'play'
+}];
+function Hangman(word) {
+	this.randomWord = word.toUpperCase();
+	this.tries = 0;
+	this.left = 0;
+};
+var wins = 0;
+var losses = 0;
+
+Hangman.prototype.play = function() {
+	// process.stdout.write('\033c');
+	var that = this;
+	var keepPlaying	= true;
+	that.left = this.randomWord.length;
+	if(this.randomWord === w.playerWord || that.tries === that.left){
+		keepPlaying = false;
+	}
+	process.stdout.write('\033c');
+	console.log('\x1b[5m\x1b[37m\x1b[43m', 'The Hangman Game', '\x1b[0m', '\n');
+	w.showWordVars();
+	console.log(colors.white('\nTries'), colors.yellow(this.tries));
+	console.log(colors.white('\nWins'), colors.yellow(wins), colors.white(' Losses'), colors.yellow(losses),'\n');
+
+	// console.log('tries', that.tries, 'left', that.left, '\n');
+	// console.log('Wins: ', wins ,' Losses: ', losses, '\n');
+	if (keepPlaying) {
+		process.stdout.write('\033c');
+		console.log(colors.rainbow('The Hangman Game \n'));
+		w.showWordVars();
+		console.log(colors.white('\nTries'), colors.yellow(this.tries));
+		console.log(colors.white('\nWins'), colors.yellow(wins), colors.white(' Losses'), colors.yellow(losses),'\n');
+		// console.log('tries', that.tries, 'left', that.left, '\n');
+		// console.log('Wins: ', wins ,' Losses: ', losses, '\n');
+		inquirer.prompt(letterQuestion).then(function(answer) {
+			w.checkPlayerWord(answer.letter.toUpperCase());	
+			that.tries++;
+			
+			that.play();
 		});
 	} else {
-		console.log('.......Final Scores......')
-		console.log('\x1b[36m', 'randomWord:', randomWord, '\n playerWord', playerWord);
-		inquirer.prompt([{
-			type: 'confirm', 
-			message: 'wanna play again?',
-			name: 'playAgain'
-		}]).then(function (answer) {
-			if (answer.playAgain) {
-				// initialize();
-				console.log('try another day ...');
+		if(this.randomWord === w.playerWord) {
+			wins++;
+			this.showHangman('');
+			console.log('you win ...'.repeat(15));
+		} else {
+			losses++;
+			this.showHangman(' ');
+			console.log('\x1b[44m', 'the word was: ', this.randomWord);
+			console.log('\x1b[0m','you loss ...'.repeat(20));			
+		}
+		inquirer.prompt(playQuestion).then(function(answer) {
+			if(answer.play) {
+				initialize();
 			} else {
-				var hangman = 
-				[	'    -----     ',
-					'   | ? ? |    ',
-					'   |  <> |    ',
-					'   |  ~~ |    ',
-					'    -----     ',
-					'    -----     ',
-					'   |     |    ',
-					'---|     |--- ',
-					'   |     |    ',
-					'    -----     ',
-					'     / \\     ',
-					'    /   \\    ',
-					'   =     =    '
-				];
-				// process.stdout.write('\033c');
-				hangman.forEach(function(e, i) {
-					console.log(''.repeat(i) + e);
-				});
+				console.log('Adios Amigo ...!');
 			}
-		})
+		});
 	}
-}
+};
 
+Hangman.prototype.showHangman = function(hang) {
+	var hangman = 
+	[	'    -----     ',
+		'   | ? ? |    ',
+		'   |  <> |    ',
+		'   |  ~~ |    ',
+		'    =====     ',
+		'    -----     ',
+		'   |     |    ',
+		'---|     |--- ',
+		'   |     |    ',
+		'    -----     ',
+		'     / \\     ',
+		'    /   \\    ',
+		'   =     =    '
+	];
+	// process.stdout.write('\033c');
+	hangman.forEach(function(e, i) {
+		console.log(hang.repeat(i) + e);
+	});	
+}
+var w = new word.Word();
+
+function initialize() {
+	process.stdout.write('\033c');
+	var g = new game.Game();
+	var h = new Hangman(g.randomWord);
+	console.log(h.randomWord);
+	w.inputLetters = '';
+	w.matchingLetters = '';
+	w.randomWord = '';
+	w.playerWord = '';
+	w.setRandomWord(h.randomWord);
+	h.play();
+};
+
+
+// var w = new word.Word();	//Initialize once 
+// var g = new game.Game();
+// var h = new Hangman(g.randomWord);
+initialize();
+
+// w.setRandomWord(h.randomWord);
+// h.play();
 

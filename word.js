@@ -1,61 +1,45 @@
 // * `word.js` should contain all of the methods which will check the letters guessed
 // versus the random word selected.
 var letter = require('./letter');
+var colors = require('colors/safe');
 
-function Word() {
+var Word = function() {
 	this.inputLetters = '';
+	this.matchingLetters = '';
 	this.randomWord = '';
 	this.playerWord = '';
-	this.setRandomWord = function(word) {
-		this.randomWord = word;
-		this.playerWord = word;
-	};
-	this.setPlayerWord = function(char) {
-		this.inputLetters += char;
-		console.log(word.inputLetters);
-		var exp = '[^' + this.inputLetters + ']';
-		var regex = new RegExp(exp, 'g');
-		this.playerWord = this.randomWord.replace(regex, '*');
-	};
-	this.showPlayerWord = function() {
-		console.log(this.randomWord);
-		console.log(this.playerWord);
-	};
-	// this.saveInputLetters = function(char) {
-	// 	this.inputLetters += char;
-	// };
-	this.checkLetter = function(l) {
-		// var letter = new t
-		return this.randomWord.indexOf(l) > -1 ? true : false
-	}
+};
+
+Word.prototype.setRandomWord = function(word) {
+	this.randomWord = word;
+	this.playerWord = '*'.repeat(this.randomWord.length);
+};
+
+Word.prototype.checkPlayerWord = function(char) {
+	var l = new letter.Letter(char);
+	l.found = this.checkLetter(char);
+	this.inputLetters += char;
+	this.matchingLetters += l.charFound();
+	var exp = '[^' + this.matchingLetters + ']';
+	var regex = new RegExp(exp, 'g');
+	this.playerWord = this.randomWord.replace(regex, '*');
+};
+
+Word.prototype.showWordVars = function() {
+	// this.checkPlayerWord('');
+	// console.log('Random Word: ', this.randomWord);
+	console.log(colors.white('\nInput Chars [%s]'), colors.yellow(this.inputLetters));
+	// console.log('\nInput Chars: ', this.inputLetters, '\n');
+	console.log(colors.white('\nPlayer Word: %s'), colors.yellow(this.playerWord));
+};
+
+Word.prototype.checkLetter = function(l) {
+	return this.randomWord.indexOf(l) > -1 ? true : false
 }
-process.stdout.write('\033c');
-var l = new letter.Letter();
-// var l = new letter();
-var word = new Word();
 
-word.setRandomWord('javascript');
-l.setChar('a');
+module.exports.Word = Word;
 
-// word.saveInputLetters(l.char);
+// var word = new Word();
+// word.setRandomWord('javascript');
+// word.checkPlayerWord('s');
 
-l.found = word.checkLetter(l.char);
-console.log('l.char: ', l.char);
-console.log('l.found: ', l.found);
-console.log('l.charFound: ', l.charFound());
-
-word.setPlayerWord(l.charFound());
-
-l.setChar('p');
-l.found = word.checkLetter(l.char)
-console.log('l.char: ', l.char);
-console.log('l.found: ', l.found);
-console.log('l.charFound: ', l.charFound());
-
-word.setPlayerWord(l.charFound());
-
-word.showPlayerWord();
-
-console.log('javascript'.replace(/[^z]/g, '*'));
-console.log('javascript'.indexOf('u'));
-// console.log('javascript'.replace(/scr/g, 'ok'));

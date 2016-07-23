@@ -1,31 +1,36 @@
-var request = require('request');
-var url = 'https://randomuser.me/api/?results=1&gender=female';
+// var request = require('request');
+// var url = 'https://randomuser.me/api/?results=1&gender=female';
 // var url = 'http://randomword.setgetgo.com/get.php?len=6';
 
 
-function Game() {
-	this.randomWord = '';
-	this.setRandomWord = function() {
-		request(url, function(error, response, results) {
-			if (!error && response.statusCode === 200) {
-				var users = JSON.parse(results);
-				users['results'].forEach(function(user){
-					this.randomWord = user.name.first;
-					console.log(this.randomWord);
-				})
-				// while (!this.randomWord) {
-				// 	console.log('waiting');
-				// }
-			}
-		});
-		// this.randomWord = getRandomWord();
-	};
-	this.getRandomWord = function() {
-		return this.randomWord
-	};
-}
+// var Game = function() {
+// 	// this.randomWord = '';
+// 	this.setRandomWord = function() {
+// 		request(url, function(error, response, results) {
+// 			if (!error && response.statusCode === 200) {
+// 				var users = JSON.parse(results);
+// 				var word = new Word.Word();
+// 				users['results'].forEach(function(user){
+// 					word.setRandomWord(user.name.first);
+// 					// console.log(this.randomWord);
+// 				});
+// 				console.log(word.randomWord);
+// 			}
+// 		});
+// 	};
+// }
+// var g = new Game();
+// g.setRandomWord();
 
-var game = new Game();
-game.setRandomWord();
-// game.getRandomWord();
-setTimeout(function(){console.log(game.randomWord)}, 2000);
+var Game = function() {
+	this.randomWords = ['javascript', 'jquery', 'mysql', 'bootstrap', 'node', 'api', 'html', 'css'],
+	this.randomWord = this.getRandomWord();
+};
+
+Game.prototype.getRandomWord = function() {
+	return this.randomWords[Math.floor(Math.random() * this.randomWords.length)];
+}
+module.exports.Game = Game;
+// var g = new Game();
+// console.log(g.randomWord);
+

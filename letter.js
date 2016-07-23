@@ -1,21 +1,12 @@
-// * `letter.js` should control whether or not a letter appears as a "_" 
-// or as itself on-screen.
-// Displays word to screen either 'abc' or '---'
 
-var Letter = function () {
-	this.found = false;//true
-	this.char = '';//a
-	this.setChar = function(char) {
-		this.char = char;
-	}
-	// this.charFound = function() {
-	// 	// console.log(this.found ? this.char : '*');
-	// 	return this.found ? this.char : '';
-	// }
+var Letter = function(char) {
+	this.found = false;
+	this.letter = char;
 }
 Letter.prototype.charFound = function() {
-		// console.log(this.found ? this.char : '*')
-		return this.found ? this.char : '';
+	// cannot return '*' otherwise it will be used
+	// console.log(this.found ? this.char : '*')
+		return this.found ? this.letter : '';
 }
 
 // module.exports = Letter;
