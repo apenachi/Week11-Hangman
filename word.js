@@ -27,9 +27,7 @@ Word.prototype.checkPlayerWord = function(char) {
 
 Word.prototype.showWordVars = function() {
 	// this.checkPlayerWord('');
-	// console.log('Random Word: ', this.randomWord);
 	console.log(colors.white('\nInput Chars [%s]'), colors.yellow(this.inputLetters));
-	// console.log('\nInput Chars: ', this.inputLetters, '\n');
 	console.log(colors.white('\nPlayer Word: %s'), colors.yellow(this.playerWord));
 };
 
